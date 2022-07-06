@@ -2,49 +2,44 @@ package horseRace;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.concurrent.*;
 
 @Data
 @Builder
 public class Race {
+    @NonNull
     int raceLength;
 
+    @NonNull
     @Builder.Default
-    ArrayList<Horse> horses = new ArrayList<>();
+    List<Horse> horses = new ArrayList<>();
 
-    void addHorse(Horse horse){
-        horse.setTotalRaceLength(this.raceLength);
+    void addHorse(Horse horse) {
+        horse.setRaceLength(this.raceLength);
         horses.add(horse);
     }
 
-    void start() throws InterruptedException {
-        //Set monitor tread and start
-        Monitor monitor = Monitor.builder()
-                .horses(horses)
-                .build();
+    void start() throws InterruptedException, ExecutionException {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        ThreadPoolExecutor monitorExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
-        monitor.start();
+        CompletionService<Integer> completionService = new ExecutorCompletionService<>(executor);
 
-        //Start horse threads and wait for finish.
-        ExecutorService es = Executors.newCachedThreadPool();
-        horses.forEach(es::execute);
 
-        es.shutdown();
+        horses.forEach(completionService::submit);
 
-        boolean finished = es.awaitTermination(10, TimeUnit.MINUTES);
+        monitorExecutor.submit(Monitor.builder().horses(horses).poolExecutor(executor).build());
+        monitorExecutor.shutdown();
+        monitorExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 
-        //If race is finish, interrupt monitor thread, show orders.
-        if(finished){
-            monitor.interrupt();
-
-            System.out.println("Race completed.");
-            horses.sort((o1, o2) -> o1.getFinishDate().isBefore(o2.getFinishDate()) ? -1: 1);
-
-            horses.forEach((horse) -> System.out.printf("%s, %s\n", horse.getHorseName(), horse.getFinishDate()));
+        for (Horse h : horses) {
+            System.out.println(completionService.take().get());
         }
+
+        System.out.println("Race Finished");
     }
 }
