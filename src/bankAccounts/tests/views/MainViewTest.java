@@ -1,8 +1,8 @@
 package bankAccounts.tests.views;
 
 import bankAccounts.views.MainView;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ public class MainViewTest {
 
         int result = MainView.getListSelection(customers);
 
-        Assertions.assertEquals(result, 1);
+        Assert.assertEquals(result, 1);
 
         System.setIn(sysInBackup);
     }

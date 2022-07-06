@@ -2,8 +2,8 @@ package bankAccounts.tests.models;
 
 import bankAccounts.enums.MaturationType;
 import bankAccounts.models.RecurringDepositAccount;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,13 +23,13 @@ public class RecurringAccountModelTest {
                 .maturationType(MaturationType.MONTH)
                 .build();
 
-        Assertions.assertEquals("recurring deposit account", account.getName());
-        Assertions.assertEquals(maturationDate, account.getMaturationStartDate());
-        Assertions.assertTrue(account.isPaymentToCheckingAccount());
-        Assertions.assertEquals("123", account.getCustomerId());
-        Assertions.assertEquals(500, account.getBalance(), 0.00001);
-        Assertions.assertEquals(400, account.getMaturationBalance(), 0.00001);
-        Assertions.assertEquals(MaturationType.MONTH, account.getMaturationType());
+        Assert.assertEquals("recurring deposit account", account.getName());
+        Assert.assertEquals(maturationDate, account.getMaturationStartDate());
+        Assert.assertTrue(account.isPaymentToCheckingAccount());
+        Assert.assertEquals("123", account.getCustomerId());
+        Assert.assertEquals(500, account.getBalance(), 0.00001);
+        Assert.assertEquals(400, account.getMaturationBalance(), 0.00001);
+        Assert.assertEquals(MaturationType.MONTH, account.getMaturationType());
     }
 
     @Test
@@ -45,13 +45,13 @@ public class RecurringAccountModelTest {
                 .maturationType(MaturationType.MONTH)
                 .build();
 
-        Assertions.assertEquals(50, account.getEarningByMaturationType(), 0.00001);
+        Assert.assertEquals(50, account.getEarningByMaturationType(), 0.00001);
 
         account.setMaturationType(MaturationType.SIX_MONTHS);
-        Assertions.assertEquals(600, account.getEarningByMaturationType(), 0.00001);
+        Assert.assertEquals(600, account.getEarningByMaturationType(), 0.00001);
 
         account.setMaturationType(MaturationType.YEAR);
-        Assertions.assertEquals(1800, account.getEarningByMaturationType(), 0.00001);
+        Assert.assertEquals(1800, account.getEarningByMaturationType(), 0.00001);
     }
 
     @Test
@@ -67,13 +67,13 @@ public class RecurringAccountModelTest {
                 .maturationType(MaturationType.MONTH)
                 .build();
 
-        Assertions.assertEquals(maturationDate.plusMonths(1), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
+        Assert.assertEquals(maturationDate.plusMonths(1), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
 
         account.setMaturationType(MaturationType.SIX_MONTHS);
-        Assertions.assertEquals(maturationDate.plusMonths(6), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
+        Assert.assertEquals(maturationDate.plusMonths(6), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
 
         account.setMaturationType(MaturationType.YEAR);
-        Assertions.assertEquals(maturationDate.plusYears(1), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
+        Assert.assertEquals(maturationDate.plusYears(1), LocalDateTime.ofInstant(account.getMaturationFinishDate().toInstant(), ZoneId.systemDefault()));
     }
 
     @Test
@@ -89,8 +89,8 @@ public class RecurringAccountModelTest {
 
         recurringDepositAccount.withdrawMoney(1000);
 
-        Assertions.assertEquals(3000, recurringDepositAccount.getBalance(), 0.0001);
-        Assertions.assertEquals(3000, recurringDepositAccount.getMaturationBalance(), 0.0001);
+        Assert.assertEquals(3000, recurringDepositAccount.getBalance(), 0.0001);
+        Assert.assertEquals(3000, recurringDepositAccount.getMaturationBalance(), 0.0001);
     }
 
     @Test
@@ -106,9 +106,9 @@ public class RecurringAccountModelTest {
 
         recurringDepositAccount.withdrawMoney(500);
 
-        Assertions.assertEquals(4500, recurringDepositAccount.getBalance(), 0.0001);
-        Assertions.assertEquals(4000, recurringDepositAccount.getMaturationBalance(), 0.0001);
-        Assertions.assertEquals(1, recurringDepositAccount.getTransactions().size());
+        Assert.assertEquals(4500, recurringDepositAccount.getBalance(), 0.0001);
+        Assert.assertEquals(4000, recurringDepositAccount.getMaturationBalance(), 0.0001);
+        Assert.assertEquals(1, recurringDepositAccount.getTransactions().size());
     }
 
     @Test
@@ -124,8 +124,8 @@ public class RecurringAccountModelTest {
 
         recurringDepositAccount.depositMoney(1000);
 
-        Assertions.assertEquals(6000, recurringDepositAccount.getBalance(), 0.0001);
-        Assertions.assertEquals(4000, recurringDepositAccount.getMaturationBalance(), 0.0001);
-        Assertions.assertEquals(0, recurringDepositAccount.getTransactions().size());
+        Assert.assertEquals(6000, recurringDepositAccount.getBalance(), 0.0001);
+        Assert.assertEquals(4000, recurringDepositAccount.getMaturationBalance(), 0.0001);
+        Assert.assertEquals(0, recurringDepositAccount.getTransactions().size());
     }
 }

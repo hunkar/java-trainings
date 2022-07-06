@@ -3,8 +3,8 @@ package bankAccounts.tests.controllers;
 import bankAccounts.controllers.CustomerController;
 import bankAccounts.enums.ControllerResponseType;
 import bankAccounts.models.Customer;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
@@ -21,8 +21,8 @@ public class CustomerControllerTest {
                 .address("ankara")
                 .build());
 
-        Assertions.assertEquals(customers.size(), 1);
-        Assertions.assertEquals(responseType, ControllerResponseType.SUCCESSFUL);
+        Assert.assertEquals(customers.size(), 1);
+        Assert.assertEquals(responseType, ControllerResponseType.SUCCESSFUL);
     }
 
     @Test
@@ -41,8 +41,8 @@ public class CustomerControllerTest {
                 .address("istanbul")
                 .build());
 
-        Assertions.assertEquals(customers.size(), 1);
-        Assertions.assertEquals(responseType, ControllerResponseType.CUSTOMER_EXIST);
+        Assert.assertEquals(customers.size(), 1);
+        Assert.assertEquals(responseType, ControllerResponseType.CUSTOMER_EXIST);
     }
 
     @Test
@@ -65,9 +65,9 @@ public class CustomerControllerTest {
 
         ControllerResponseType responseType = controller.deleteCustomer("1");
 
-        Assertions.assertEquals(customers.size(), 2);
-        Assertions.assertFalse(customers.get(0).isActive());
-        Assertions.assertEquals(responseType, ControllerResponseType.SUCCESSFUL);
+        Assert.assertEquals(customers.size(), 2);
+        Assert.assertFalse(customers.get(0).isActive());
+        Assert.assertEquals(responseType, ControllerResponseType.SUCCESSFUL);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class CustomerControllerTest {
 
         ControllerResponseType responseType = controller.deleteCustomer("12");
 
-        Assertions.assertEquals(responseType, ControllerResponseType.CUSTOMER_NOT_FOUND);
+        Assert.assertEquals(responseType, ControllerResponseType.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -112,11 +112,11 @@ public class CustomerControllerTest {
                 .build());
 
 
-        Assertions.assertEquals(controller.getCustomerList().size(), 2);
+        Assert.assertEquals(controller.getCustomerList().size(), 2);
 
         controller.deleteCustomer("1");
 
-        Assertions.assertEquals(controller.getCustomerList().size(), 1);
+        Assert.assertEquals(controller.getCustomerList().size(), 1);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class CustomerControllerTest {
                 .build());
 
         Customer customer = controller.getCustomer("2");
-        Assertions.assertEquals(2, customer.getNationalNumber());
+        Assert.assertEquals(2, customer.getNationalNumber());
     }
 
     @Test
@@ -160,6 +160,6 @@ public class CustomerControllerTest {
                 .build());
 
         Customer customer = controller.getCustomer("15");
-        Assertions.assertNull(customer);
+        Assert.assertNull(customer);
     }
 }

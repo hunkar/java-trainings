@@ -7,8 +7,8 @@ import bankAccounts.models.Account;
 import bankAccounts.models.CheckingAccount;
 import bankAccounts.models.RecurringDepositAccount;
 import bankAccounts.views.AccountView;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -30,7 +30,7 @@ public class AccountViewTest {
                 .maturationType(MaturationType.MONTH)
                 .build();
 
-        Assertions.assertEquals(AccountView.getAccountTypeString(account), "Recurring Deposit Account");
+        Assert.assertEquals(AccountView.getAccountTypeString(account), "Recurring Deposit Account");
     }
 
     @Test
@@ -41,7 +41,7 @@ public class AccountViewTest {
                 .balance(500)
                 .build();
 
-        Assertions.assertEquals(AccountView.getAccountTypeString(account), "Checking Deposit Account");
+        Assert.assertEquals(AccountView.getAccountTypeString(account), "Checking Deposit Account");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class AccountViewTest {
                 .balance(500)
                 .build();
 
-        Assertions.assertEquals(AccountView.getAccountTypeString(account), "Unknown");
+        Assert.assertEquals(AccountView.getAccountTypeString(account), "Unknown");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AccountViewTest {
 
         AccountType result = AccountView.getAccountType();
 
-        Assertions.assertEquals(result, AccountType.RECURRING_DEPOSIT);
+        Assert.assertEquals(result, AccountType.CHECKING);
 
         System.setIn(sysInBackup);
     }
@@ -82,7 +82,7 @@ public class AccountViewTest {
 
         Account result = AccountView.getAccount(accounts);
 
-        Assertions.assertEquals(result.getId(), accounts.get(1).getId());
+        Assert.assertEquals(result.getId(), accounts.get(1).getId());
 
         System.setIn(sysInBackup);
     }
@@ -101,7 +101,7 @@ public class AccountViewTest {
 
         Account result = AccountView.getAccount(accounts);
 
-        Assertions.assertNull(result);
+        Assert.assertNull(result);
 
         System.setIn(sysInBackup);
     }
@@ -115,10 +115,10 @@ public class AccountViewTest {
 
         RecurringDepositAccount result = AccountView.createRecurringAccount("123");
 
-        Assertions.assertEquals(result.getName(), "account");
-        Assertions.assertEquals(result.getBalance(), 1200, 0.0001);
-        Assertions.assertEquals(result.getMaturationType(), MaturationType.SIX_MONTHS);
-        Assertions.assertFalse(result.isPaymentToCheckingAccount());
+        Assert.assertEquals(result.getName(), "account");
+        Assert.assertEquals(result.getBalance(), 1200, 0.0001);
+        Assert.assertEquals(result.getMaturationType(), MaturationType.SIX_MONTHS);
+        Assert.assertFalse(result.isPaymentToCheckingAccount());
 
         System.setIn(sysInBackup);
     }
@@ -132,9 +132,9 @@ public class AccountViewTest {
 
         CheckingAccount result = AccountView.createCheckingAccount("123");
 
-        Assertions.assertEquals(result.getName(), "account2");
-        Assertions.assertEquals(result.getBalance(), 1200, 0.0001);
-        Assertions.assertEquals(result.getDailyWithdrawLimit(), 750, 0.0001);
+        Assert.assertEquals(result.getName(), "account2");
+        Assert.assertEquals(result.getBalance(), 1200, 0.0001);
+        Assert.assertEquals(result.getDailyWithdrawLimit(), 750, 0.0001);
 
         System.setIn(sysInBackup);
     }
@@ -154,7 +154,7 @@ public class AccountViewTest {
 
         AccountView.depositToAccount(controller, account);
 
-        Assertions.assertEquals(account.getBalance(), 1500, 0.0001);
+        Assert.assertEquals(account.getBalance(), 1500, 0.0001);
 
         System.setIn(sysInBackup);
     }
@@ -181,7 +181,7 @@ public class AccountViewTest {
 
         AccountView.witdrawFromAccount(controller, account);
 
-        Assertions.assertEquals(account.getBalance(), 500, 0.0001);
+        Assert.assertEquals(account.getBalance(), 500, 0.0001);
 
         System.setIn(sysInBackup);
     }
@@ -207,7 +207,7 @@ public class AccountViewTest {
 
         AccountView.deleteAccount(controller, account);
 
-        Assertions.assertFalse(account.isActive());
+        Assert.assertFalse(account.isActive());
 
         System.setIn(sysInBackup);
     }

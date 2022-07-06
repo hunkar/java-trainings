@@ -41,6 +41,16 @@ public class RecurringDepositAccount extends Account implements AccountTransacti
         }
     }
 
+    /*
+    //This way is not suggested.
+    public abstract static class RecurringDepositAccountBuilder<C extends RecurringDepositAccount, B extends RecurringDepositAccountBuilder<C, B>> extends Account.AccountBuilder<C, B>{
+        public B balance(double balance) {
+            this.maturationBalance = balance;
+            return (B)this;
+        }
+    }
+    */
+
     public Date getMaturationFinishDate() {
         Calendar tempDate = Calendar.getInstance();
         tempDate.setTime(this.maturationStartDate);

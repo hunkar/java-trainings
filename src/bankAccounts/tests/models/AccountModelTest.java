@@ -3,8 +3,8 @@ package bankAccounts.tests.models;
 import bankAccounts.enums.TransactionLogType;
 import bankAccounts.models.Account;
 import bankAccounts.models.Transaction;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +14,9 @@ public class AccountModelTest {
     public void createAccount() {
         Account account = Account.builder().name("account").balance(5000).customerId("123").build();
 
-        Assertions.assertEquals("account", account.getName());
-        Assertions.assertEquals(5000, account.getBalance(), 0.0001);
-        Assertions.assertEquals("123", account.getCustomerId());
+        Assert.assertEquals("account", account.getName());
+        Assert.assertEquals(5000, account.getBalance(), 0.0001);
+        Assert.assertEquals("123", account.getCustomerId());
     }
 
     @Test
@@ -24,8 +24,8 @@ public class AccountModelTest {
         Account account = Account.builder().name("account").balance(5000).customerId("123").build();
         account.close();
 
-        Assertions.assertFalse(account.isActive());
-        Assertions.assertEquals(0, account.getBalance(), 0.0001);
+        Assert.assertFalse(account.isActive());
+        Assert.assertEquals(0, account.getBalance(), 0.0001);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class AccountModelTest {
 
         Account searchAccount = Account.builder().id("2").name("account").customerId("123").build();
 
-        Assertions.assertEquals(1, accounts.indexOf(searchAccount));
+        Assert.assertEquals(1, accounts.indexOf(searchAccount));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class AccountModelTest {
                 .transactionLogType(TransactionLogType.DEPOSIT)
                 .build());
 
-        Assertions.assertEquals(1, account.getTransactions().size());
+        Assert.assertEquals(1, account.getTransactions().size());
     }
 
 }

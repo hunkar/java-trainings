@@ -3,8 +3,8 @@ package bankAccounts.tests.views;
 import bankAccounts.controllers.CustomerController;
 import bankAccounts.models.Customer;
 import bankAccounts.views.CustomerView;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ public class CustomerViewTest {
 
         Customer result = CustomerView.getCustomer(customers);
 
-        Assertions.assertEquals(result.getId(), customers.get(1).getId());
+        Assert.assertEquals(result.getId(), customers.get(1).getId());
 
         System.setIn(sysInBackup);
     }
@@ -45,10 +45,10 @@ public class CustomerViewTest {
 
         CustomerView.createCustomer(customerController);
 
-        Assertions.assertEquals(customerController.getCustomerList().size(), 1);
-        Assertions.assertEquals(customerController.getCustomerList().get(0).getName(), "customer");
-        Assertions.assertEquals(customerController.getCustomerList().get(0).getAddress(), "ankara");
-        Assertions.assertEquals(customerController.getCustomerList().get(0).getNationalNumber(), 1);
+        Assert.assertEquals(customerController.getCustomerList().size(), 1);
+        Assert.assertEquals(customerController.getCustomerList().get(0).getName(), "customer");
+        Assert.assertEquals(customerController.getCustomerList().get(0).getAddress(), "ankara");
+        Assert.assertEquals(customerController.getCustomerList().get(0).getNationalNumber(), 1);
 
         System.setIn(sysInBackup);
     }
@@ -73,7 +73,7 @@ public class CustomerViewTest {
 
         CustomerView.deleteCustomer(controller, customer);
 
-        Assertions.assertFalse(customer.isActive());
+        Assert.assertFalse(customer.isActive());
 
         System.setIn(sysInBackup);
     }

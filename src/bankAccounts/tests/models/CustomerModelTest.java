@@ -1,8 +1,8 @@
 package bankAccounts.tests.models;
 
 import bankAccounts.models.Customer;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class CustomerModelTest {
     @Test
@@ -19,10 +19,10 @@ public class CustomerModelTest {
                 .nationalNumber(124)
                 .build();
 
-        Assertions.assertEquals("hunkar", customer1.getName());
-        Assertions.assertEquals("ankara", customer1.getAddress());
-        Assertions.assertEquals(123, customer1.getNationalNumber());
-        Assertions.assertNotEquals(customer1.getId(), customer2.getId());
+        Assert.assertEquals("hunkar", customer1.getName());
+        Assert.assertEquals("ankara", customer1.getAddress());
+        Assert.assertEquals(123, customer1.getNationalNumber());
+        Assert.assertNotEquals(customer1.getId(), customer2.getId());
     }
 
 

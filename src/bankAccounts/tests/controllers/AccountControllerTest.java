@@ -7,8 +7,8 @@ import bankAccounts.enums.TransactionLogType;
 import bankAccounts.models.Account;
 import bankAccounts.models.CheckingAccount;
 import bankAccounts.models.RecurringDepositAccount;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -30,7 +30,7 @@ public class AccountControllerTest {
                 .dailyWithdrawLimit(750)
                 .build());
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class AccountControllerTest {
                 .maturationType(MaturationType.MONTH)
                 .build());
 
-        Assertions.assertEquals(ControllerResponseType.ERROR_CREATE_CHECKING_FIRST, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.ERROR_CREATE_CHECKING_FIRST, controllerResponseType);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class AccountControllerTest {
                 .maturationType(MaturationType.MONTH)
                 .build());
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
     }
 
     @Test
@@ -102,9 +102,9 @@ public class AccountControllerTest {
 
         ControllerResponseType controllerResponseType = controller.deleteAccount("1");
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
-        Assertions.assertEquals(accounts.size(), 2);
-        Assertions.assertFalse(accounts.get(0).isActive());
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(accounts.size(), 2);
+        Assert.assertFalse(accounts.get(0).isActive());
 
     }
 
@@ -134,8 +134,8 @@ public class AccountControllerTest {
 
         ControllerResponseType controllerResponseType = controller.deleteAccount("4");
 
-        Assertions.assertEquals(ControllerResponseType.ACCOUNT_NOT_FOUND, controllerResponseType);
-        Assertions.assertEquals(accounts.size(), 2);
+        Assert.assertEquals(ControllerResponseType.ACCOUNT_NOT_FOUND, controllerResponseType);
+        Assert.assertEquals(accounts.size(), 2);
 
     }
 
@@ -156,7 +156,7 @@ public class AccountControllerTest {
                 -100,
                 TransactionLogType.DEPOSIT);
 
-        Assertions.assertEquals(ControllerResponseType.INVALID_DEPOSIT_VALUE, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.INVALID_DEPOSIT_VALUE, controllerResponseType);
     }
 
     @Test
@@ -176,8 +176,8 @@ public class AccountControllerTest {
                 100,
                 TransactionLogType.DEPOSIT);
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
-        Assertions.assertEquals(600, accounts.get(0).getBalance(), 0.0001);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(600, accounts.get(0).getBalance(), 0.0001);
     }
 
     @Test
@@ -204,8 +204,8 @@ public class AccountControllerTest {
                 100,
                 TransactionLogType.DEPOSIT);
 
-        Assertions.assertEquals(ControllerResponseType.ACCOUNT_NOT_FOUND, controllerResponseType);
-        Assertions.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
+        Assert.assertEquals(ControllerResponseType.ACCOUNT_NOT_FOUND, controllerResponseType);
+        Assert.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
     }
 
     @Test
@@ -237,10 +237,10 @@ public class AccountControllerTest {
                 100,
                 TransactionLogType.DEPOSIT);
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
 
-        Assertions.assertEquals(600, accounts.get(1).getBalance(), 0.0001);
-        Assertions.assertEquals(500, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
+        Assert.assertEquals(600, accounts.get(1).getBalance(), 0.0001);
+        Assert.assertEquals(500, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
     }
 
     @Test
@@ -273,10 +273,10 @@ public class AccountControllerTest {
                 100,
                 TransactionLogType.DEPOSIT);
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
 
-        Assertions.assertEquals(600, accounts.get(1).getBalance(), 0.0001);
-        Assertions.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
+        Assert.assertEquals(600, accounts.get(1).getBalance(), 0.0001);
+        Assert.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
     }
 
     @Test
@@ -295,8 +295,8 @@ public class AccountControllerTest {
         ControllerResponseType controllerResponseType = controller.withdrawFromAccount(accounts.get(0),
                 -100);
 
-        Assertions.assertEquals(ControllerResponseType.INVALID_WITHDRAW_VALUE, controllerResponseType);
-        Assertions.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
+        Assert.assertEquals(ControllerResponseType.INVALID_WITHDRAW_VALUE, controllerResponseType);
+        Assert.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
     }
 
     @Test
@@ -315,8 +315,8 @@ public class AccountControllerTest {
         ControllerResponseType controllerResponseType = controller.withdrawFromAccount(accounts.get(0),
                 600);
 
-        Assertions.assertEquals(ControllerResponseType.INVALID_WITHDRAW_VALUE, controllerResponseType);
-        Assertions.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
+        Assert.assertEquals(ControllerResponseType.INVALID_WITHDRAW_VALUE, controllerResponseType);
+        Assert.assertEquals(500, accounts.get(0).getBalance(), 0.0001);
     }
 
     @Test
@@ -335,8 +335,8 @@ public class AccountControllerTest {
         ControllerResponseType controllerResponseType = controller.withdrawFromAccount(accounts.get(0),
                 1000);
 
-        Assertions.assertEquals(ControllerResponseType.DAILY_LIMIT_EXCEEDED, controllerResponseType);
-        Assertions.assertEquals(1000, accounts.get(0).getBalance(), 0.0001);
+        Assert.assertEquals(ControllerResponseType.DAILY_LIMIT_EXCEEDED, controllerResponseType);
+        Assert.assertEquals(1000, accounts.get(0).getBalance(), 0.0001);
     }
 
     @Test
@@ -367,10 +367,10 @@ public class AccountControllerTest {
         ControllerResponseType controllerResponseType = controller.withdrawFromAccount(accounts.get(1),
                 100);
 
-        Assertions.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.SUCCESSFUL, controllerResponseType);
 
-        Assertions.assertEquals(400, accounts.get(1).getBalance(), 0.0001);
-        Assertions.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
+        Assert.assertEquals(400, accounts.get(1).getBalance(), 0.0001);
+        Assert.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
     }
 
     @Test
@@ -402,10 +402,10 @@ public class AccountControllerTest {
         ControllerResponseType controllerResponseType = controller.withdrawFromAccount(accounts.get(1),
                 100);
 
-        Assertions.assertEquals(ControllerResponseType.NO_WITHDRAW_IN_MATURATION, controllerResponseType);
+        Assert.assertEquals(ControllerResponseType.NO_WITHDRAW_IN_MATURATION, controllerResponseType);
 
-        Assertions.assertEquals(500, accounts.get(1).getBalance(), 0.0001);
-        Assertions.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
+        Assert.assertEquals(500, accounts.get(1).getBalance(), 0.0001);
+        Assert.assertEquals(400, ((RecurringDepositAccount) accounts.get(1)).getMaturationBalance(), 0.0001);
     }
 
     @Test
@@ -436,7 +436,7 @@ public class AccountControllerTest {
 
         Account account = controller.getAccountById("2");
 
-        Assertions.assertEquals("2", account.getId());
+        Assert.assertEquals("2", account.getId());
     }
 
     @Test
@@ -446,7 +446,7 @@ public class AccountControllerTest {
 
         Account account = controller.getAccountById("2");
 
-        Assertions.assertNull(account);
+        Assert.assertNull(account);
     }
 
     @Test
@@ -470,7 +470,7 @@ public class AccountControllerTest {
                 .dailyWithdrawLimit(750)
                 .build());
 
-        Assertions.assertEquals(1, controller.getAccountListByCustomer("123").size());
+        Assert.assertEquals(1, controller.getAccountListByCustomer("123").size());
     }
 
     @Test
@@ -507,6 +507,6 @@ public class AccountControllerTest {
 
         Account account = controller.getAccountById("2");
 
-        Assertions.assertEquals(1, controller.getCheckingAccountListByCustomer("123").size());
+        Assert.assertEquals(1, controller.getCheckingAccountListByCustomer("123").size());
     }
 }

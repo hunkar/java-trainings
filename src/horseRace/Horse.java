@@ -3,42 +3,47 @@ package horseRace;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 @Builder
 @Data
-public class Horse extends Thread {
-    private String horseName;
+public class Horse implements Callable {
+    private String name;
+    private int distance;
+    private int raceLength;
 
-    @Builder.Default
-    private int coveredDistance = 0;
-    private int totalRaceLength;
-
-    private LocalDateTime finishDate;
-
-    @Override
-    public void run() {
-        move();
+      @Override
+    public String toString() {
+        StringBuilder path = new StringBuilder("Horse" + name + " #");
+        for (int i = 1; i <= raceLength; i++) {
+            if (i == distance) {
+                path.append("X");
+            } else {
+                path.append("-");
+            }
+        }
+        path.append("#");
+        return path.toString();
     }
 
-    private void move() {
-        //Sleep random time. It will make difference for horses speed.
+    @Override
+    public Object call() {
         try {
-            sleep(ThreadLocalRandom.current().nextInt(200, 500));
+            while (distance < raceLength) {
+                long duration = ThreadLocalRandom.current().nextLong(0, 3000);
+                long runLength = ThreadLocalRandom.current().nextLong(0, raceLength);
+                distance += runLength;
+
+                if (distance > raceLength)
+                    distance = raceLength;
+                TimeUnit.MILLISECONDS.sleep(duration);
+            }
         } catch (InterruptedException e) {
-            this.interrupt();
+            e.printStackTrace();
         }
 
-        //If race is finish, then interrupt thread. Set finish date time.
-        if (coveredDistance >= totalRaceLength - 1) {
-            finishDate = LocalDateTime.now();
-            interrupt();
-            return;
-        }
-
-        //Move one step.
-        coveredDistance += 1;
-        this.move();
+        return name;
     }
 }

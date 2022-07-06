@@ -1,8 +1,8 @@
 package bankAccounts.tests.models;
 
 import bankAccounts.models.CheckingAccount;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class CheckingAccountModelTest {
     @Test
@@ -14,10 +14,10 @@ public class CheckingAccountModelTest {
                 .dailyWithdrawLimit(1000)
                 .build();
 
-        Assertions.assertEquals("account", checkingAccount.getName());
-        Assertions.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
-        Assertions.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
-        Assertions.assertEquals("123", checkingAccount.getCustomerId());
+        Assert.assertEquals("account", checkingAccount.getName());
+        Assert.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
+        Assert.assertEquals("123", checkingAccount.getCustomerId());
     }
 
     @Test
@@ -29,10 +29,10 @@ public class CheckingAccountModelTest {
                 .dailyWithdrawLimit(-500)
                 .build();
 
-        Assertions.assertEquals("account", checkingAccount.getName());
-        Assertions.assertEquals(0, checkingAccount.getDailyWithdrawLimit(), 0.0001);
-        Assertions.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
-        Assertions.assertEquals("123", checkingAccount.getCustomerId());
+        Assert.assertEquals("account", checkingAccount.getName());
+        Assert.assertEquals(0, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
+        Assert.assertEquals("123", checkingAccount.getCustomerId());
     }
 
     @Test
@@ -44,10 +44,10 @@ public class CheckingAccountModelTest {
                 .dailyWithdrawLimit(1500)
                 .build();
 
-        Assertions.assertEquals("account", checkingAccount.getName());
-        Assertions.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
-        Assertions.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
-        Assertions.assertEquals("123", checkingAccount.getCustomerId());
+        Assert.assertEquals("account", checkingAccount.getName());
+        Assert.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(5000, checkingAccount.getBalance(), 0.0001);
+        Assert.assertEquals("123", checkingAccount.getCustomerId());
     }
 
     @Test
@@ -61,8 +61,8 @@ public class CheckingAccountModelTest {
 
         checkingAccount.setDailyWithdrawLimit(500);
 
-        Assertions.assertEquals(500, checkingAccount.getDailyWithdrawLimit(), 0.0001);
-        Assertions.assertEquals(1, checkingAccount.getTransactions().size());
+        Assert.assertEquals(500, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(1, checkingAccount.getTransactions().size());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class CheckingAccountModelTest {
 
         checkingAccount.setDailyWithdrawLimit(-500);
 
-        Assertions.assertEquals(0, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(0, checkingAccount.getDailyWithdrawLimit(), 0.0001);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class CheckingAccountModelTest {
 
         checkingAccount.setDailyWithdrawLimit(1500);
 
-        Assertions.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
+        Assert.assertEquals(1000, checkingAccount.getDailyWithdrawLimit(), 0.0001);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class CheckingAccountModelTest {
 
         checkingAccount.withdrawMoney(1000);
 
-        Assertions.assertEquals(4000, checkingAccount.getBalance(), 0.0001);
+        Assert.assertEquals(4000, checkingAccount.getBalance(), 0.0001);
     }
 
     @Test
@@ -118,9 +118,9 @@ public class CheckingAccountModelTest {
 
         String dayStamp = "27-06-2022";
 
-        Assertions.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
+        Assert.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
         checkingAccount.withdrawMoney(200);
-        Assertions.assertEquals(200, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
+        Assert.assertEquals(200, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
     }
 
     @Test
@@ -134,12 +134,12 @@ public class CheckingAccountModelTest {
 
         String dayStamp = "27-06-2022";
 
-        Assertions.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
+        Assert.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
         checkingAccount.withdrawMoney(200);
-        Assertions.assertEquals(200, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
+        Assert.assertEquals(200, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
 
         dayStamp = "28-06-2022";
-        Assertions.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
+        Assert.assertEquals(0, checkingAccount.getDailyWithdrawValue(dayStamp), 0.0001);
     }
 
     @Test
@@ -152,6 +152,6 @@ public class CheckingAccountModelTest {
                 .build();
         checkingAccount.depositMoney(1000);
 
-        Assertions.assertEquals(6000, checkingAccount.getBalance(), 0.0001);
+        Assert.assertEquals(6000, checkingAccount.getBalance(), 0.0001);
     }
 }

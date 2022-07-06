@@ -3,34 +3,31 @@ package horseRace;
 import lombok.Builder;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 @Builder
 public class Monitor extends Thread {
-    @Builder.Default
-    ArrayList<Horse> horses = new ArrayList<>();
+    private List<Horse> horses;
+    private ThreadPoolExecutor poolExecutor;
 
-    @Override
     public void run() {
-        printRace();
+        try {
+            printHorses();
+
+            while (poolExecutor.getActiveCount() > 0) {
+                printHorses();
+                TimeUnit.MILLISECONDS.sleep(2000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    void printRace(){
-        //Print horses paths
-        horses.forEach(horse -> {
-            System.out.printf(String.format("%-" + 20 + "s", horse.getHorseName()));
-            System.out.print("#");
-            IntStream.range(0, horse.getTotalRaceLength())
-                    .forEach(index -> System.out.printf(horse.getCoveredDistance() == index ? "X" : "-"));
-            System.out.print("#\n");
-        });
-
-        //Sleep 2 seconds
-        try {
-            sleep(2 * 1000);
-            this.printRace();
-        } catch (InterruptedException e) {
-            this.interrupt();
-        }
+    public void printHorses() {
+        horses.forEach(System.out::println);
+        System.out.print("\n");
     }
 }
