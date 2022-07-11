@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,5 +20,11 @@ public class JobPost {
     @NonNull
     private String companyId;
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof JobPost)) return false;
 
+        JobPost other = (JobPost) o;
+        return (this.id.equals(other.getId()));
+    }
 }
